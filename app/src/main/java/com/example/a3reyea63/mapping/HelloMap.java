@@ -2,8 +2,11 @@ package com.example.a3reyea63.mapping;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +15,9 @@ import android.widget.TextView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.views.MapView;
 import org.osmdroid.util.GeoPoint;
+
+import android.view.Menu;
+import android.view.MenuInflater;
 
 public class HelloMap extends Activity implements View.OnClickListener{
 
@@ -53,4 +59,26 @@ public class HelloMap extends Activity implements View.OnClickListener{
             mv.getController().setCenter(new GeoPoint(doubleLat, doubleLon));
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.menu_hello_map, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == R.id.choosemap)
+        {
+            //System.exit(0);
+            Intent intent = new Intent (this, MapChooseActivity.class);
+            startActivity(intent);
+
+            return true;
+        }
+        return false;
+    }
+
 }
