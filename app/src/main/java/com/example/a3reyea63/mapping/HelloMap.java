@@ -19,6 +19,9 @@ import org.osmdroid.util.GeoPoint;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+
+
 public class HelloMap extends Activity implements View.OnClickListener{
 
     MapView mv;
@@ -74,11 +77,35 @@ public class HelloMap extends Activity implements View.OnClickListener{
         {
             //System.exit(0);
             Intent intent = new Intent (this, MapChooseActivity.class);
-            startActivity(intent);
+            //startActivity(intent);
+            startActivityForResult(intent, 0);
 
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent intent)
+    {
+
+        if(requestCode==0)
+        {
+
+            if (resultCode==RESULT_OK)
+            {
+                Bundle extras=intent.getExtras();
+                boolean cyclemap = extras.getBoolean("com.example.cyclemap");
+                if(cyclemap==true)
+                {
+                    mv.setTileSource(TileSourceFactory.CYCLEMAP);
+                }
+                else
+                {
+                    mv.setTileSource(TileSourceFactory.MAPNIK);
+                }
+            }
+        }
     }
 
 }
