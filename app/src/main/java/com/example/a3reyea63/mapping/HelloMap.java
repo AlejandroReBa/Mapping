@@ -42,12 +42,13 @@ public class HelloMap extends Activity implements View.OnClickListener{
         mv.getController().setZoom(14);
         mv.getController().setCenter(new GeoPoint(40.1, 22.5));//Litochoro, Greece
 
-        Button changeButton = (Button)findViewById(R.id.changeButton);
-        changeButton.setOnClickListener(this);
+        //Button changeButton = (Button)findViewById(R.id.changeButton);
+        //changeButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
+        /*
         EditText lat = (EditText)findViewById(R.id.editlat);
         EditText lon = (EditText)findViewById(R.id.editlon);
 
@@ -61,6 +62,7 @@ public class HelloMap extends Activity implements View.OnClickListener{
             error.setText("");
             mv.getController().setCenter(new GeoPoint(doubleLat, doubleLon));
         }
+        */
     }
 
     @Override
@@ -81,6 +83,10 @@ public class HelloMap extends Activity implements View.OnClickListener{
             startActivityForResult(intent, 0);
 
             return true;
+        }else if (item.getItemId() == R.id.setlocation){
+            Intent intent = new Intent (this, SetLocationActivity.class);
+            startActivityForResult(intent, 1);
+
         }
         return false;
     }
@@ -104,6 +110,14 @@ public class HelloMap extends Activity implements View.OnClickListener{
                 {
                     mv.setTileSource(TileSourceFactory.MAPNIK);
                 }
+            }
+
+        }else if(requestCode==1){
+            if (resultCode==RESULT_OK){
+                Bundle extras=intent.getExtras();
+                double lat = extras.getDouble("com.example.selectedlat");
+                double lon = extras.getDouble("com.example.selectedlon");
+                mv.getController().setCenter(new GeoPoint(lat, lon));
             }
         }
     }
