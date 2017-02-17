@@ -7,5 +7,6 @@
     <string name="regularview">Regular view</string>
     <string name="cyclemapview">Cycle map view</string>
     <string name="setlocation">Set location</string>
+    <string name="poilist">Select list of Pois</string>
 
 </resources>

@@ -8,9 +8,6 @@ import android.preference.PreferenceManager;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.views.MapView;
@@ -85,6 +82,10 @@ public class HelloMap extends Activity implements View.OnClickListener{
             return true;
         }else if (item.getItemId() == R.id.setlocation){
             Intent intent = new Intent (this, SetLocationActivity.class);
+            startActivityForResult(intent, 1);
+
+        }else if (item.getItemId() == R.id.poilist){
+            Intent intent = new Intent (this, BrowserListActivity.class);
             startActivityForResult(intent, 1);
 
         }

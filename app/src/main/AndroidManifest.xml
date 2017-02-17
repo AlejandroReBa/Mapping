@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,14 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MapChooseActivity"
-            android:label="@string/choosemap">
-        </activity>
-
-        <activity android:name=".SetLocationActivity"
-            android:label="@string/setlocation">
-        </activity>
+        <activity
+            android:name=".MapChooseActivity"
+            android:label="@string/choosemap" />
+        <activity
+            android:name=".SetLocationActivity"
+            android:label="@string/setlocation" />
+        <activity android:name=".BrowserListActivity"></activity>
     </application>
 
 </manifest>

@@ -2,4 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/choosemap" android:id="@+id/choosemap" />
     <item android:title="@string/setlocation" android:id="@+id/setlocation" />
+    <item android:title="@string/poilist" android:id="@+id/poilist"/>
 </menu>
