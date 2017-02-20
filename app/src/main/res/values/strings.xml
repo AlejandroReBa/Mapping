@@ -3,10 +3,11 @@
     <string name="latitude">Latitude: </string>
     <string name="longitude">Longitude: </string>
     <string name="change">Change Position</string>
-    <string name="choosemap">Choose map style</string>
+    <string name="choosemap">Choose Map Style</string>
     <string name="regularview">Regular view</string>
     <string name="cyclemapview">Cycle map view</string>
     <string name="setlocation">Set location</string>
     <string name="poilist">Select list of Pois</string>
+    <string name="choosemaplist">Choose Map Style (List)</string>
 
 </resources>

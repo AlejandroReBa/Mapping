@@ -28,7 +28,8 @@
         <activity
             android:name=".SetLocationActivity"
             android:label="@string/setlocation" />
-        <activity android:name=".BrowserListActivity"></activity>
+        <activity android:name=".BrowserListActivity" />
+        <activity android:name=".MapChooseListActivity"></activity>
     </application>
 
 </manifest>

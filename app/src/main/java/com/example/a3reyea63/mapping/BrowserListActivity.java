@@ -28,7 +28,7 @@ public class BrowserListActivity extends ListActivity {
         //setContentView(R.layout.browser_entry);
     }
 
-
+    @Override
     public void onListItemClick (ListView lv, View view, int index, long id){
         // handle list item selection
     }
@@ -39,10 +39,31 @@ public class BrowserListActivity extends ListActivity {
             super(BrowserListActivity.this, android.R.layout.simple_list_item_1, names);
         }
 
+        /*
         @Override
         public View getView(int index, View convertView, ViewGroup parent){
             LayoutInflater inflater = (LayoutInflater) getSystemService (Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.browser_entry, parent, false);
+
+            TextView nameTextView = (TextView) view.findViewById(R.id.browser_name);
+            TextView descriptionTextView = (TextView) view.findViewById(R.id.browser_desc);
+
+            nameTextView.setText(names[index]);
+            descriptionTextView.setText(details[index]);
+
+            return view;
+        }
+        */
+
+        @Override
+        public View getView(int index, View convertView, ViewGroup parent){
+
+            View view = convertView;
+            if (view == null)
+            {
+                LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.browser_entry, parent, false);
+            }
 
             TextView nameTextView = (TextView) view.findViewById(R.id.browser_name);
             TextView descriptionTextView = (TextView) view.findViewById(R.id.browser_desc);
