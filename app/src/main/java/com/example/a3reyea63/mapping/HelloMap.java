@@ -3,6 +3,7 @@ package com.example.a3reyea63.mapping;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -36,8 +37,13 @@ public class HelloMap extends Activity implements View.OnClickListener{
         mv = (MapView) findViewById(R.id.map1);
 
         mv.setBuiltInZoomControls(true);
+
+        /* 06/03/2017
+        Now this is done in onStart method. longitude, latitude and zoom read from preferences.
+
         mv.getController().setZoom(14);
         mv.getController().setCenter(new GeoPoint(40.1, 22.5));//Litochoro, Greece
+        */
 
         //Button changeButton = (Button)findViewById(R.id.changeButton);
         //changeButton.setOnClickListener(this);
@@ -91,6 +97,10 @@ public class HelloMap extends Activity implements View.OnClickListener{
         }else if (item.getItemId() == R.id.choosemaplist){
             Intent intent = new Intent (this, MapChooseListActivity.class);
             startActivityForResult(intent, 0);
+
+        }else if (item.getItemId() == R.id.prefsactivity){
+            Intent intent = new Intent (this, MyPrefsActivity.class);
+            startActivityForResult(intent, 3);
         }
         return false;
     }
@@ -122,8 +132,22 @@ public class HelloMap extends Activity implements View.OnClickListener{
                 double lat = extras.getDouble("com.example.selectedlat");
                 double lon = extras.getDouble("com.example.selectedlon");
                 mv.getController().setCenter(new GeoPoint(lat, lon));
+
             }
+
         }
+    }
+
+    public void onStart()
+    {
+        super.onStart();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        double lat = Double.parseDouble ( prefs.getString("lat", "50.9") );
+        double lon = Double.parseDouble ( prefs.getString("lon", "-1.4") );
+        int zoom = Integer.parseInt ( prefs.getString("zoom", "14") );
+
+        mv.getController().setZoom(zoom);
+        mv.getController().setCenter(new GeoPoint(lat, lon));
     }
 
 }

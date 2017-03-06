@@ -9,5 +9,6 @@
     <string name="setlocation">Set location</string>
     <string name="poilist">Select list of Pois</string>
     <string name="choosemaplist">Choose Map Style (List)</string>
+    <string name="prefsactivity">Change the preferences for your application</string>
 
 </resources>
