@@ -146,6 +146,13 @@ public class HelloMap extends Activity implements View.OnClickListener{
         double lon = Double.parseDouble ( prefs.getString("lon", "-1.4") );
         int zoom = Integer.parseInt ( prefs.getString("zoom", "14") );
 
+        String mapStyle = prefs.getString("mapstyle","RM");
+        if(mapStyle.equals("RM")){
+            mv.setTileSource(TileSourceFactory.MAPNIK);
+        }else{
+            mv.setTileSource(TileSourceFactory.CYCLEMAP);
+        }
+
         mv.getController().setZoom(zoom);
         mv.getController().setCenter(new GeoPoint(lat, lon));
     }
