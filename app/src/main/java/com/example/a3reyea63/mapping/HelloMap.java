@@ -18,11 +18,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
+
+import java.util.ArrayList;
 
 
 public class HelloMap extends Activity implements View.OnClickListener{
 
     MapView mv;
+    boolean onActivityResultExecuted;
+    boolean deviceRotated;
+    double lon;
+    double lat;
+    int zoom;
+
+    ItemizedIconOverlay<OverlayItem> items;
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -47,6 +58,31 @@ public class HelloMap extends Activity implements View.OnClickListener{
 
         //Button changeButton = (Button)findViewById(R.id.changeButton);
         //changeButton.setOnClickListener(this);
+
+        onActivityResultExecuted = false;
+        deviceRotated = false;
+        lat = 0;
+        lon = 0;
+        zoom = 0;
+        if (savedInstanceState != null)
+        {
+            //not working well, once initialized is never null again until close emulator
+            //deviceRotated = true;
+            //lat = savedInstanceState.getDouble("lat");
+            //lon = savedInstanceState.getDouble("lot");
+           //zoom = savedInstanceState.getInt("zoom");
+            //works?
+           // savedInstanceState = null;
+        }
+
+        items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), null);
+        OverlayItem fernhurst = new OverlayItem("Fernhurst", "Village in West Sussex", new GeoPoint(51.05, -0.72));
+        OverlayItem blackdown = new OverlayItem("Blackdown", "highest point in West Sussex", new GeoPoint(51.0581, -0.6897));
+        items.addItem(fernhurst);
+        items.addItem(blackdown);
+        mv.getOverlays().add(items);
+
+
     }
 
     @Override
@@ -105,10 +141,12 @@ public class HelloMap extends Activity implements View.OnClickListener{
         return false;
     }
 
+    // Called before onResume()
+
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent intent)
     {
-
+        onActivityResultExecuted = true;
         if(requestCode==0)
         {
 
@@ -138,23 +176,45 @@ public class HelloMap extends Activity implements View.OnClickListener{
         }
     }
 
-    public void onStart()
+    public void onSaveInstanceState (Bundle savedInstanceState)
     {
-        super.onStart();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        double lat = Double.parseDouble ( prefs.getString("lat", "50.9") );
-        double lon = Double.parseDouble ( prefs.getString("lon", "-1.4") );
-        int zoom = Integer.parseInt ( prefs.getString("zoom", "14") );
-
-        String mapStyle = prefs.getString("mapstyle","RM");
-        if(mapStyle.equals("RM")){
-            mv.setTileSource(TileSourceFactory.MAPNIK);
+        //savedInstanceState.putBoolean("isRecording", isRecording);
+        savedInstanceState.putDouble("lat", mv.getMapCenter().getLatitude());
+        savedInstanceState.putDouble("lon", mv.getMapCenter().getLongitude());
+        savedInstanceState.putInt("zoom", mv.getZoomLevel());
+        if(mv.getTileProvider().getTileSource()==TileSourceFactory.CYCLEMAP) {
+            savedInstanceState.putString("tile", "CM");
         }else{
-            mv.setTileSource(TileSourceFactory.CYCLEMAP);
+            savedInstanceState.putString("tile", "RM");
+        }
+        //mv.getTileProvider().getMapTile();
+    }
+
+    public void onResume()
+    {
+        super.onResume();
+        if(deviceRotated){
+            mv.getController().setZoom(this.zoom);
+            mv.getController().setCenter(new GeoPoint(this.lat,this.lon));
+        }else if(!onActivityResultExecuted){
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            double lat = Double.parseDouble ( prefs.getString("lat", "50.9") );
+            double lon = Double.parseDouble ( prefs.getString("lon", "-1.4") );
+            int zoom = Integer.parseInt ( prefs.getString("zoom", "14") );
+
+            String mapStyle = prefs.getString("mapstyle","RM");
+            if(mapStyle.equals("RM")){
+                mv.setTileSource(TileSourceFactory.MAPNIK);
+            }else{
+                mv.setTileSource(TileSourceFactory.CYCLEMAP);
+            }
+
+            mv.getController().setZoom(zoom);
+            mv.getController().setCenter(new GeoPoint(lat, lon));
+        }else{
+            onActivityResultExecuted = false;
         }
 
-        mv.getController().setZoom(zoom);
-        mv.getController().setCenter(new GeoPoint(lat, lon));
     }
 
 }
